@@ -41,7 +41,7 @@ Analizá la planilla sin modificarla.
 
 Evaluá la cobertura total de cada producto como stock actual + stock en tránsito, en relación con el consumo promedio mensual.
 
-Tratá el stock de seguridad como un límite mínimo que no debe consumirse normalmente.
+Considerá el stock de seguridad como una referencia de control. No lo descuentes de la cobertura total, que se calcula como stock actual + stock en tránsito.
 
 Considerá conjuntamente los tiempos de fabricación y tránsito para determinar la urgencia de reposición.
 
@@ -100,7 +100,7 @@ Cerrá siempre con: “Recomendaciones sujetas a revisión y aprobación humana.
 6. Ejemplos
 Ejemplo de producto que requiere atención
 Prioridad	Producto	Cobertura considerada	Stock límite estimado	Próximo pedido sugerido (según planilla)	Motivo	Recomendación
-Alta	Producto A	120 unidades actuales + 30 en tránsito	15/10/2026	10/09/2026 (fecha provista por la planilla)	El plazo total de fabricación y tránsito compromete el stock de seguridad.	Revisar de inmediato la planificación del próximo pedido. Sujeto a revisión humana.
+Alta	Producto A	120 unidades actuales + 30 en tránsito	15/10/2026	10/09/2026 (fecha provista por la planilla)	La fecha sugerida del próximo pedido ubica el caso en prioridad Alta según el criterio temporal definido.	Revisar de inmediato la planificación del próximo pedido. Sujeto a revisión humana.
 Ejemplo con información incompleta
 Producto B: falta el consumo promedio mensual. No es posible estimar su cobertura ni determinar de forma confiable la urgencia de reposición. No se completó el dato con supuestos.
 
