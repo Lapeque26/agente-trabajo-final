@@ -1,54 +1,139 @@
-Decisiones
-Iteración 1 — Primera corrida real
+# Decisiones e iteraciones
+
+## Iteración 1 — Ambigüedad en la unidad de consumo
+
 Fecha: 03/09/2026
 
-Corrida afectada: corridas/corrida_01/
+### Problema / contexto
 
-Qué falló
-La hoja Stock usa “Consumo promedio Mensual”, mientras que la hoja Instrucciones lo describe como “Consumo promedio diario”. Esta inconsistencia puede generar una interpretación incorrecta de la unidad de consumo, aunque en esta corrida el agente respetó las fechas y los cálculos ya existentes de la planilla.
+La hoja **`Stock`** indicaba “Consumo promedio Mensual” mientras que la hoja **`Instrucciones`** lo describía como “Consumo promedio diario”.
 
-Qué se decidió
-Mantener como correcta la unidad mensual y corregir la hoja Instrucciones para que también diga “Consumo promedio mensual”.
+### Cambio realizado
 
-Qué se cambió
-En esta iteración se documentó el hallazgo y la decisión. No se cambiaron fórmulas, valores de stock ni prompts.
+Se mantuvo como correcta la unidad mensual y se corrigió la descripción de la hoja **`Instrucciones`** para que también indique consumo promedio mensual.
 
-Por qué
-Para eliminar la ambigüedad en la fuente de datos antes de ejecutar una segunda corrida.
+### Motivo / impacto
 
-Iteración 2 — Validación de la corrección
+Eliminar una ambigüedad que podía llevar al agente a interpretar incorrectamente la unidad de consumo.
+
+### Evidencia
+
+- **`corrida_01`** detectó la inconsistencia.
+- **`corrida_02`** ya no volvió a reportarla.
+
+## Iteración 2 — Validación de la corrección
+
 Fecha: 03/09/2026
 
-Corrida afectada: corridas/corrida_02/
+### Problema / contexto
 
-Qué se verificó
-Que la corrección de la unidad de consumo eliminó la ambigüedad detectada en la corrida 1.
+Era necesario comprobar que la corrección anterior realmente eliminara la ambigüedad.
 
-Resultado
-La corrida 2 analizó 34 productos y no volvió a reportar la inconsistencia entre consumo diario y mensual.
+### Cambio realizado
 
-Qué se decidió
-Mantener la corrección y continuar con el mismo criterio de consumo promedio mensual.
+No se modificaron prompts ni fórmulas. Se realizó una segunda ejecución usando la fuente corregida.
 
-Qué se cambió
-No se modificaron prompts ni fórmulas en esta iteración; solo se validó el efecto de la corrección realizada en la fuente de datos.
+### Motivo / impacto
 
-Por qué
-Para confirmar que la mejora resolvió el problema antes de realizar la tercera corrida.
+Confirmar que el problema había sido resuelto antes de continuar iterando.
 
-Iteración 3 — Definición del horizonte de priorización
+### Evidencia
+
+- **`corrida_02`** analizó 34 productos.
+- No volvió a reportar la inconsistencia entre consumo diario y mensual.
+
+## Iteración 3 — Horizonte temporal no autorizado
+
 Fecha: 03/09/2026
 
-Corrida afectada: corridas/corrida_02/
+### Problema / contexto
 
-Qué falló
-En la corrida 2 apareció un criterio de 7 días que no estaba definido en el prompt. Esto se consideró una decisión no autorizada del agente.
+La **`corrida_02`** utilizó un criterio de 7 días que no estaba definido en el prompt.
 
-Qué se decidió
-Definir explícitamente un horizonte de 20 días para determinar la prioridad de los productos y reemplazar cualquier horizonte implícito.
+### Cambio realizado
 
-Qué se cambió
-Se incorporó al system prompt el criterio de prioridad alta, media y baja basado en la fecha sugerida del próximo pedido y en el horizonte explícito de 20 días.
+Se incorporó al system prompt un criterio explícito:
 
-Por qué
-Para evitar criterios inventados por el agente y hacer que la priorización sea reproducible.
+- Alta: fecha vencida o igual a la fecha de corrida.
+- Media: dentro de los próximos 20 días.
+- Baja: más de 20 días.
+
+### Motivo / impacto
+
+Evitar que el agente invente criterios temporales y hacer reproducible la priorización.
+
+### Evidencia
+
+- **`corrida_02`** utilizó 7 días sin autorización.
+- **`corrida_03`** aplicó el horizonte explícito de 20 días.
+- **`corrida_03`** identificó **`D900`**, **`H950`** y **`K950`** como prioridad Media.
+
+## Iteración 4 — Regla de stock de seguridad
+
+Fecha: 03/09/2026
+
+### Problema / contexto
+
+La documentación podía interpretarse como si el stock de seguridad debiera descontarse de la cobertura total.
+
+### Cambio realizado
+
+Se definió que la cobertura utilizada por el agente es:
+
+**`stock actual + stock en tránsito`**.
+
+El stock de seguridad se conserva como referencia de control y no se descuenta de la cobertura total.
+
+### Motivo / impacto
+
+Alinear la lógica del agente con la regla de negocio utilizada en las corridas.
+
+### Evidencia
+
+- **`agente_reposicion.py`** calcula la cobertura como stock actual + stock en tránsito.
+- **`tests/test_agente_reposicion.py`** incluye una prueba específica que verifica que el stock de seguridad no se descuenta.
+- **`docs/validacion_ejecutable.md`** documenta el mismo criterio.
+
+Esta iteración documenta la decisión; no afirma que los prompts o **`README.md`** hayan sido actualizados con esta aclaración.
+
+## Iteración 5 — Feedback del evaluador automático
+
+Fecha: 03/09/2026
+
+### Problema / contexto
+
+El evaluador automático otorgó inicialmente 17,5/100 y señaló deficiencias en funcionamiento demostrable, proceso, reproducibilidad, análisis económico y gobierno/riesgo.
+
+### Cambio realizado
+
+Se incorporaron los siguientes archivos y mejoras que existen en el repositorio:
+
+- implementación ejecutable en **`agente_reposicion.py`**;
+- pruebas automáticas en **`tests/test_agente_reposicion.py`**;
+- declaración de requisitos en **`requirements.txt`**;
+- validación ejecutable en **`docs/validacion_ejecutable.md`**;
+- análisis económico en **`docs/analisis_economico.md`**;
+- gobierno y riesgos en **`docs/gobierno_riesgo.md`**;
+- archivos **`metadata.json`** en **`corridas/corrida_01/`**, **`corridas/corrida_02/`** y **`corridas/corrida_03/`**;
+- mejora del índice de corridas en **`corridas/README.md`**.
+
+### Motivo / impacto
+
+Responder directamente al feedback y aumentar funcionamiento verificable, trazabilidad, reproducibilidad, análisis económico y gobernanza.
+
+### Evidencia
+
+- **`agente_reposicion.py`**
+- **`tests/test_agente_reposicion.py`**
+- **`requirements.txt`**
+- **`docs/validacion_ejecutable.md`**
+- **`docs/analisis_economico.md`**
+- **`docs/gobierno_riesgo.md`**
+- **`corridas/corrida_01/metadata.json`**
+- **`corridas/corrida_02/metadata.json`**
+- **`corridas/corrida_03/metadata.json`**
+- **`corridas/README.md`**
+
+## Principio de trabajo
+
+El proyecto conserva los errores reales, documenta las iteraciones y no reescribe las salidas históricas para ocultar fallas. De este modo, prioriza la trazabilidad y la reproducibilidad del proceso.
