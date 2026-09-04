@@ -1,5 +1,13 @@
 # Decisiones e iteraciones
 
+## Tres decisiones significativas del desarrollo
+
+| Decisión | Problema / contexto | Cambio realizado | Motivo / impacto | Evidencia |
+| --- | --- | --- | --- | --- |
+| Unidad de consumo | La hoja Stock indicaba consumo promedio mensual y la hoja Instrucciones lo describía como consumo promedio diario. | Se unificó la interpretación a consumo promedio mensual y se corrigió la descripción correspondiente. | Evitar que el agente interpretara incorrectamente la unidad de consumo. | corrida_01 detectó la inconsistencia y corrida_02 confirmó que ya no aparecía. |
+| Horizonte de priorización | corrida_02 utilizó un horizonte de 7 días que no estaba autorizado por el prompt. | Se definió explícitamente prioridad Alta, Media y Baja con horizonte de 20 días. | Evitar criterios temporales inventados y hacer reproducible la priorización. | corrida_02 utilizó 7 días y corrida_03 aplicó correctamente 20 días. |
+| Stock de seguridad | La documentación podía interpretarse como si el stock de seguridad debiera descontarse de la cobertura. | Se definió que la cobertura es stock actual + stock en tránsito y que el stock de seguridad se usa únicamente como referencia de control. | Alinear la documentación con la lógica real del agente y evitar una interpretación incorrecta de la cobertura. | agente_reposicion.py, tests/test_agente_reposicion.py y docs/validacion_ejecutable.md. |
+
 ## Iteración 1 — Ambigüedad en la unidad de consumo
 
 Fecha: 03/09/2026
