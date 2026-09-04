@@ -36,3 +36,19 @@ No se modificaron prompts ni fórmulas en esta iteración; solo se validó el ef
 Por qué
 Para confirmar que la mejora resolvió el problema antes de realizar la tercera corrida.
 
+Iteración 3 — Definición del horizonte de priorización
+Fecha: 03/09/2026
+
+Corrida afectada: corridas/corrida_02/
+
+Qué falló
+En la corrida 2 apareció un criterio de 7 días que no estaba definido en el prompt. Esto se consideró una decisión no autorizada del agente.
+
+Qué se decidió
+Definir explícitamente un horizonte de 20 días para determinar la prioridad de los productos y reemplazar cualquier horizonte implícito.
+
+Qué se cambió
+Se incorporó al system prompt el criterio de prioridad alta, media y baja basado en la fecha sugerida del próximo pedido y en el horizonte explícito de 20 días.
+
+Por qué
+Para evitar criterios inventados por el agente y hacer que la priorización sea reproducible.
