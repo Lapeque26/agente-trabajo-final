@@ -6,7 +6,7 @@ El proyecto implementa un agente que analiza inventario y detecta qué productos
 
 ## Problema de negocio
 
-La planificación de reposición debe anticipar faltantes sin ignorar mercadería ya pedida ni consumir normalmente el stock de seguridad. El agente reúne la información relevante de inventario, cobertura y plazos para facilitar una decisión consistente sobre cuándo revisar el próximo pedido.
+La planificación de reposición debe anticipar faltantes sin ignorar mercadería ya pedida. El agente reúne la información relevante de inventario, cobertura y plazos para facilitar una decisión consistente sobre cuándo revisar el próximo pedido.
 
 ## Fuente de datos y herramienta
 
@@ -31,7 +31,7 @@ El flujo es:
 3. Priorizar los productos según la fecha sugerida del próximo pedido.
 4. Recomendar una revisión, sin ejecutar acciones.
 
-La cobertura considera `stock actual + stock en tránsito`. El stock de seguridad se respeta como un límite mínimo que no debe consumirse normalmente.
+La cobertura considera `stock actual + stock en tránsito`. El stock de seguridad se utiliza como referencia de control y no se descuenta de la cobertura total.
 
 ## Criterio actual de prioridad
 
