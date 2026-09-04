@@ -21,4 +21,4 @@ En esta iteración se documentó el hallazgo y la decisión. No se cambiaron fó
 
 Para eliminar la ambigüedad en la fuente de datos antes de ejecutar una segunda corrida.
 
-Pendiente de completar.
+
